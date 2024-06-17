@@ -141,7 +141,7 @@ async function start() {
 
   // Parcel watches for changes and rebuilds the assets :)
   let builtFirst = null;
-  await sassBundler.watch(buildHandler('Sass', () => {
+  let sassSubscription = await sassBundler.watch(buildHandler('Sass', () => {
     if (browserSync.active) {
       browserSync.reload('dist/sass/global.css');
     } else if (builtFirst === null) {
@@ -153,7 +153,7 @@ async function start() {
     // Run stylelint after styles have been built debounced
     runStylelint();
   }));
-  await jsBundler.watch(buildHandler('JavaScript', () => {
+  let jsSubscription = await jsBundler.watch(buildHandler('JavaScript', () => {
     if (browserSync.active) {
       browserSync.reload('dist/js/front-end.js');
     } else if (builtFirst === null) {
@@ -170,15 +170,16 @@ async function start() {
     browserSync.reload();
   });
 
-  process.on('SIGINT', function() {
+  process.on('SIGINT', async function() {
+    await sassSubscription.unsubscribe();
+    await jsSubscription.unsubscribe();
+    await workerFarm.end();
+    browserSync.exit();
+
     console.log();
     console.log("🚪 Exiting. Bye!");
   
-    workerFarm.end();
-    watcher.close();
-    browserSync.exit();
-    
-    process.exit();
+    process.exit(0);
   });
 }
 

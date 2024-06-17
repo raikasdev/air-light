@@ -62,7 +62,7 @@
     "js/legacy.js"
   ],
   "scripts": {
-    "build": "parcel build",
+    "build": "parcel build --no-source-maps",
     "dev": "node devserver.js"
   }
 }
