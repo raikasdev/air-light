@@ -126,7 +126,7 @@
       true,
       {
         "importFrom": [
-          "css/dev/global.css"
+          "dist/sass/global.css"
         ]
       }
     ],

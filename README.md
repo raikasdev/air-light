@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This is a WIP proof-of-concept of migrating away from Gulp, Webpack and Babel to Parcel. This is not ready for production use.
+
 ## Air-light - A minimalist WordPress starter theme
 
 [![GitHub release](https://img.shields.io/github/tag/digitoimistodude/air-light.svg)](https://github.com/digitoimistodude/air-light/releases) ![GitHub contributors](https://img.shields.io/github/contributors/digitoimistodude/air-light.svg) [![Build Status for PHP 8.3](https://github.com/digitoimistodude/air-light/actions/workflows/php8.3.yml/badge.svg)](https://github.com/digitoimistodude/air-light/actions/workflows/php8.3.yml) [![Build Status for HTML](https://github.com/digitoimistodude/air-light/actions/workflows/html.yml/badge.svg)](https://github.com/digitoimistodude/air-light/actions/workflows/html.yml) [![Build Status for JS](https://github.com/digitoimistodude/air-light/actions/workflows/js.yml/badge.svg)](https://github.com/digitoimistodude/air-light/actions/workflows/js.yml) [![Build Status for CSS](https://github.com/digitoimistodude/air-light/actions/workflows/styles.yml/badge.svg)](https://github.com/digitoimistodude/air-light/actions/workflows/styles.yml) [![Build Status for PHP](https://github.com/digitoimistodude/air-light/actions/workflows/php.yml/badge.svg)](https://github.com/digitoimistodude/air-light/actions/workflows/php.yml)
@@ -6,8 +9,8 @@ Air-light (or simply *Air*) is designed to be an ultra minimal starting point fo
 
 ## [Demo](https://airwptheme.com/demo) | [Documentation](https://github.com/digitoimistodude/air-light/wiki)
 
-* **CSS gzipped:** 16.8 KB *(originally 124.4 KB)*
-* **JS gzipped:** 8.6 KB *(28.6 KB original)*
+* **CSS gzipped:** 16.8 KB *(originally 124.4 KB)* (Parcel: 11,6 KiB gzipped, original 73,87 KiB)
+* **JS gzipped:** 8.6 KB *(28.6 KB original)* (Parcel: 4,74 KiB gzipped, original 19,28 KiB)
 * **Front page HTML**: 7.4 KB *(29.4 KB original)*
 
 ![air-light-readme-mockup-latest](https://user-images.githubusercontent.com/1534150/170326942-b7404051-7621-4df3-9294-0ccd5e6f59a7.png)
@@ -217,10 +220,6 @@ From 4.7.1 air-light has a lazy loading image features for background images and
 All .js files in `/js/src/*` is built to production bundles in `/js/prod/` folder and development bundles in `/js/dev/` folder with the same name and loaded corresponding to the WP_ENV environment variable. The production scripts can be loaded on development by using `?load_production_builds` URL parameter. The main scripts file loaded in front end is `/js/src/front-end.js`.
 
 If you want to add a piece of custom JS, create a file under `/js/src/modules/` and import or require it in `/js/src/front-end.js`. If you need a admin-specific JS, add a `/js/src/admin.js` and then enqueue `/js/dist/admin.js` with `enqueue_admin_scripts`
-
-#### Legacy support
-
-Our build uses babel to translate scripts to ES2015 compatible JS, so you can use modern JS syntax without thinking about backwards compatibility. There is a `/js/src/legacy.js` file, which contains the needed polyfills for browsers not supporting the ES2015 syntax and is automatically loaded on the header when such browser is detected.
 
 #### Linter
 

@@ -139,7 +139,7 @@
    */
 
 // stylelint-disable-next-line
-::input-placeholder {
+::-webkit-input-placeholder {
   // stylelint-disable-next-line
   color: inherit;
   opacity: .54;

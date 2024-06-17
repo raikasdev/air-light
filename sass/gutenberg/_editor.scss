@@ -45,10 +45,10 @@
 // Need to be right after general, because after typography comes block styles
 .editor-styles-wrapper {
   // Import typography related styles inside blocks
-  @import 'layout/typography';
+  @import '../layout/typography';
 
   // Import gravity forms inside Gutenberg editor
-  @import 'features/gravity-forms';
+  @import '../features/gravity-forms';
 
   // Prevent horizontal scrolling
   overflow-x: hidden;
@@ -70,7 +70,7 @@
 
   // Make buttons and input fields work in ACF previews
   .acf-block-preview .block {
-    @import 'layout/forms';
+    @import '../layout/forms';
   }
 
   // Fix padding for certain native blocks in article view

@@ -4,8 +4,8 @@
  *
  * @Author: Niku Hietanen
  * @Date: 2020-02-20 13:46:50
- * @Last Modified by:   Roni Laukkarinen
- * @Last Modified time: 2022-12-29 19:05:21
+ * @Last Modified by:   Roni Äikäs
+ * @Last Modified time: 2024-06-17 19:09:07
  *
  * @package air-light
  */
@@ -30,17 +30,17 @@ function enqueue_theme_scripts() {
 
   // Enqueue global.css
   wp_enqueue_style( 'styles',
-    get_theme_file_uri( get_asset_file( 'global.css' ) ),
+    get_theme_file_uri( get_asset_file( 'global.css', 'sass' ) ),
     [],
-    filemtime( get_theme_file_path( get_asset_file( 'global.css' ) ) )
+    filemtime( get_theme_file_path( get_asset_file( 'global.css', 'sass' ) ) )
   );
 
   // Enqueue jquery and front-end.js
   wp_enqueue_script( 'jquery-core' );
   wp_enqueue_script( 'scripts',
-    get_theme_file_uri( get_asset_file( 'front-end.js' ) ),
+    get_theme_file_uri( get_asset_file( 'front-end.js', 'js' ) ),
     [],
-    filemtime( get_theme_file_path( get_asset_file( 'front-end.js' ) ) ),
+    filemtime( get_theme_file_path( get_asset_file( 'front-end.js', 'js' ) ) ),
     true
   );
 
@@ -80,15 +80,15 @@ function enqueue_polyfills() {
     return false;
   }
   }());
-  var legacyScript ="' . esc_url( get_theme_file_uri( get_asset_file( 'legacy.js' ) ) ) . '";
+  var legacyScript ="' . esc_url( get_theme_file_uri( get_asset_file( 'legacy.js', 'js' ) ) ) . '";
   if (!supportsES6) {
     var script = document.createElement("script");
     script.src = legacyScript;
     document.head.appendChild(script);
   }';
 
-  if ( file_exists( get_theme_file_path( get_asset_file( 'legacy.js' ) ) ) ) {
-    wp_register_script( 'air_light_legacy', '', [], filemtime( get_theme_file_path( get_asset_file( 'legacy.js' ) ) ), false );
+  if ( file_exists( get_theme_file_path( get_asset_file( 'legacy.js', 'js' ) ) ) ) {
+    wp_register_script( 'air_light_legacy', '', [], filemtime( get_theme_file_path( get_asset_file( 'legacy.js', 'js' ) ) ), false );
     wp_enqueue_script( 'air_light_legacy' );
     wp_add_inline_script( 'air_light_legacy', $script, true );
   }
@@ -101,10 +101,6 @@ function enqueue_polyfills() {
  * @param string $filename File name with the extension
  * @return string file and path of the asset file
  */
-function get_asset_file( $filename ) {
-  $env = 'development' === wp_get_environment_type() && ! isset( $_GET['load_production_builds'] ) ? 'dev' : 'prod'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-  $filetype = pathinfo( $filename )['extension'];
-
-  return "{$filetype}/{$env}/{$filename}";
+function get_asset_file( $filename, $type ) {
+  return "dist/{$type}/{$filename}";
 } // end get_asset_file
