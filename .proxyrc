@@ -1,8 +1,0 @@
-{
-  "/": {
-    "target": "https://airdev.test/",
-    "secure": false,
-    "toProxy": true,
-    "changeOrigin": true
-  } 
-}

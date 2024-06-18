@@ -39,3 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fit video embeds to container
   reframe('.wp-has-aspect-ratio iframe');
 });
+
+// Hot Module Replacement in development
+if (module.hot) {
+  module.hot.accept();
+}
