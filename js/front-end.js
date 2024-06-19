@@ -42,5 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Hot Module Replacement in development
 if (module.hot) {
+  console.log('✅ HMR available!')
   module.hot.accept();
 }

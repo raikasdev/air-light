@@ -7,6 +7,17 @@ const BrowserSync = require('browser-sync');
 const watch = require('glob-watcher');
 const stylelint = require('stylelint');
 
+/**
+ * We want to enable HMR only on request or if React is used in the project
+ * Simply because most of the JS code is inside the DOMContentLoaded event,
+ * and thy can't be hot reloaded as the event is only called once.
+ */
+const packageJson = require('./package.json');
+const HMR_ENABLED =
+  process.argv.includes('--hmr')
+  || Object.keys(packageJson.dependencies).includes('react')
+  || Object.keys(packageJson.dependencies).includes('react-dom');
+
 const parcelConfig = {
   config: './.parcelrc',
   logLevel: 'debug',
@@ -126,6 +137,7 @@ function startBrowserSync() {
 
 async function start() {
   console.log('🚀 Starting air-light Development Server');
+  if (HMR_ENABLED) console.log('🔥 Hot Module Replacement enabled');
 
   const buildHandler = (name, cb = () => null) => {
     return (err, event) => {

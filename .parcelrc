@@ -1,4 +1,13 @@
 {
   "extends": "@parcel/config-default",
-  "resolvers": ["./.parcel-font-resolver.js", "..."]
+  "resolvers": [
+    "./.parcel-font-resolver.js",
+    "..."
+  ],
+  "runtimes": [
+    "@parcel/runtime-js",
+    "@raikasta/parcel-runtime-browser-hmr",
+    "@parcel/runtime-react-refresh",
+    "@parcel/runtime-service-worker"
+  ]
 }
