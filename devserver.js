@@ -14,9 +14,11 @@ const stylelint = require('stylelint');
  */
 const packageJson = require('./package.json');
 const HMR_ENABLED =
-  process.argv.includes('--hmr')
-  || Object.keys(packageJson.dependencies).includes('react')
-  || Object.keys(packageJson.dependencies).includes('react-dom');
+  !process.argv.includes('--disable-hmr') && (
+    process.argv.includes('--hmr')
+    || Object.keys(packageJson.dependencies).includes('react')
+    || Object.keys(packageJson.dependencies).includes('react-dom')
+  );
 
 const parcelConfig = {
   config: './.parcelrc',
@@ -40,21 +42,23 @@ const sassBundler = new Parcel({
 
 const jsBundler = new Parcel({
   entries: ['js/front-end.js'],
-  hmrOptions: {
-    port: 3005,
-  },
-  serveOptions: {
-    https: {
-      key: '/var/www/certs/localhost-key.pem',
-      cert: '/var/www/certs/localhost.pem',
-    },
-    port: 3005,
-  },
   defaultTargetOptions: {
     distDir: './dist/js',
   },
   workerFarm,
   ...parcelConfig,
+  ...(HMR_ENABLED ? {
+    hmrOptions: {
+      port: 3005,
+    },
+    serveOptions: {
+      https: {
+        key: '/var/www/certs/localhost-key.pem',
+        cert: '/var/www/certs/localhost.pem',
+      },
+      port: 3005,
+    },
+  } : {})
 });
 const browserSync = BrowserSync.create();
 
